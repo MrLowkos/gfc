@@ -1,11 +1,12 @@
 import { resolve } from 'path';
-import { Configuration, ProgressPlugin } from 'webpack';
+import { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin') as any;
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const wpArgv = require('webpack-nano/argv') as any;
 
-const resolvePath = (path: string) => resolve(__dirname, path);
+const resolvePath = (path: string): string => resolve(__dirname, path);
 
 export const outputPath = resolvePath('../dist');
 
@@ -16,15 +17,15 @@ export const isProduction = process.env.NODE_ENV === 'production';
 export const webpackBaseConfig: Configuration = {
   mode: isProduction ? 'production' : 'development',
   entry: {
-    app: [resolvePath('../src/app/index.tsx')]
+    app: [resolvePath('../src/app/index.tsx')],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   output: {
     pathinfo: true,
     path: outputPath,
-    filename: 'main.bundle.js'
+    filename: 'main.bundle.js',
   },
   module: {
     rules: [
@@ -36,14 +37,14 @@ export const webpackBaseConfig: Configuration = {
         options: {
           useCache: true,
           forceIsolatedModules: true,
-          reportFiles: ['src/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}']
-        }
+          reportFiles: ['src/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
+        },
       },
       {
         enforce: 'pre',
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'source-map-loader'
+        loader: 'source-map-loader',
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -51,26 +52,26 @@ export const webpackBaseConfig: Configuration = {
         sideEffects: true,
         use: [
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
           },
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('sass')
-            }
-          }
-        ]
-      }
-    ]
+              implementation: require('sass'),
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: resolvePath('../src/app/index.html')
-    })
+      template: resolvePath('../src/app/index.html'),
+    }),
   ],
   optimization: {
-    usedExports: true
+    usedExports: true,
   },
-  watch: !isProduction
+  watch: !isProduction,
 };

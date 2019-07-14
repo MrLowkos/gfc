@@ -6,7 +6,7 @@ import { webpackBaseConfig } from './webpack.config.base';
 export const webpackProdConfig: Configuration = wpSmartMerge(webpackBaseConfig, {
   name: 'prod',
   performance: {
-    hints: 'warning'
+    hints: 'warning',
   },
-  devtool: 'nosources-source-map'
+  devtool: 'nosources-source-map',
 });
